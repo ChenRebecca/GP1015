@@ -1,5 +1,5 @@
 # set file name
-out_ps=template.ps
+out_ps=02_taiwan.ps
   
 # reset output paper size to A4
 gmt set PS_MEDIA A4
@@ -11,7 +11,8 @@ echo 0 0 | gmt psxy -R-100/100/-80/120 -JX10 -Sc1 -Ba20g10/a20g10 -P -O -K >> $o
 echo 20 20 | gmt psxy -R-100/100/-80/120 -JX10 -Sc1 -Ba20g10/a20g10 -P -O -K >> $out_ps
 echo 50 50 | gmt psxy -R-100/100/-80/120 -JX10 -Sc1 -Ba20g10/a20g10 -P -O -K >> $out_ps
 
-  
+gmt pscoast -R119/123/21/26 -Jm4 -B1 -W1 -Df -Ia -P >> $out_ps
+
 # end gmt session
 gmt psxy -R -J -O -T >> $out_ps
   
