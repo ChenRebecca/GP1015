@@ -1,31 +1,28 @@
 out_ps=HW.ps
-input_list=water.csv
+input_list=water.list
   
-gmt set PS_MEDIA A4 
-  
+cpt=homework.cpt
+ 
+gmt set PS_MEDIA A4
+ 
+gmt makecpt -T0/300/1 -Ccyclic -Z > $cpt
+
 # start gmt session
-gmt psxy -R0/1/0/1 -JX1c -T -K -P > $out_ps 
+gmt psxy -R0/1/0/1 -Jm1c -T -K -P > $out_ps 
   
 # Main map
 gmt psbasemap -R119/123/21/26 -Jm3 -B1 -G0/250/250 -X-0.5 -Y5 -O -K >> $out_ps
-gmt pscoast -R -J -B -W1 -G250/250/0 -Df -Ia -O -K >> $out_ps
+gmt psbasemap -R -J -B+tReservoir -O -K >>$out_ps
+gmt pscoast -R -J -B -W1 -G220/220/220 -Df -Ia -O -K >> $out_ps
+awk '{print $1, $2, $3}' $input_list | gmt psxy -R -J -Sc0.1 -C$cpt -O -K >> $out_ps 
 
-  
-# Bottom map
-gmt psbasemap -R119/123/0/315 -Jx3/-0.01 -B -X0 -Y-5 -O -K >> $out_ps
-  
-# Right map
-gmt psbasemap -R0/315/21/26 -Jx0.01/3.25 -B -X14 -Y5 -O -K >> $out_ps
-  
-# end gmt session
-gmt psxy -R -J -O -T >> $out_ps 
-  
+gmt makecpt -Ccyclic -T40/80 > q.cpt
+gmt psscale -Cq.cpt -DjRM+w3i/0.25i+o0.5i/0+mc -R -J -O -K -F+P+i  -Bax5 -By+l"K" >>$out_ps
+
+# end gmt session 
+gmt psxy -R -J -O -T >> $out_ps   
 # convert to pdf
 gmt psconvert $out_ps -P -Tf
 # convert to png
 gmt psconvert $out_ps -P -Tg
-gmt pslegend -R0/4/0/3.75 -Jx -O -DjBL+w1.2i+o0.25i -F+glightgray+pthicker \
-	--FONT_ANNOT_PRIMARY=14p,Helvetica-Bold << EOF >> HW.ps
-S 0.1i T 0.07i black - 0.3i reservoir
-S 0.1i c 0.07i black - 0.3i Satellite
-EOF
+
