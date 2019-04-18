@@ -16,7 +16,7 @@ gmt psbasemap -R -J -B+tReservoir-temperature -O -K >>$out_ps
 gmt pscoast -R -J -B -W1 -G220/220/220 -Df -Ia -O -K >> $out_ps
 awk '{print $1, $2, $3}' $input_list | gmt psxy -R -J -Sc0.1 -C$cpt -O -K >> $out_ps 
 
-gmt makecpt -Ccyclic -T-40/80 > q.$cpt
+gmt makecpt -Ccyclic -T-40/80 > $cpt
 gmt psscale -Cq.cpt -DjRM+w3i/0.25i+o0.5i/0+mc -R -J -O -K -F+P+i  -Bax5 -By+l"K" >>$out_ps
 
 # end gmt session 
